@@ -23,10 +23,11 @@ class Login_Controller extends REST_Controller
     {
         $email = $this->post('email');
         $senha = $this->post('senha');
-        $real_user = $this->usuario_model->get_by_email($email)[0];
+        $paciente = $this->paciente_model->get_by_email($email);
         
-        if ($email === $real_user['email'] && $senha === $real_user['senha']) {
-            $token = AUTHORIZATION::generateToken(['username' => $real_user['email']]);
+
+        if ($paciente != Null && $email === $paciente->email && $senha === $paciente->senha) {
+            $token = AUTHORIZATION::generateToken(['username' => $paciente->email]);
             $status = REST_Controller::HTTP_OK;
             $response = ['status' => $status, 'token' => $token];
             $this->response($response, $status);
