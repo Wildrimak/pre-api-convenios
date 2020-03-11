@@ -10,7 +10,7 @@ require APPPATH . 'libraries/Format.php';
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 
-class Login extends REST_Controller
+class Login_Controller extends REST_Controller
 {
     public function __construct()
     {
