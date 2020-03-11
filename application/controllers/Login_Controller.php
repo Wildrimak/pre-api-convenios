@@ -16,17 +16,17 @@ class Login_Controller extends REST_Controller
     {
         parent::__construct();
         $this->load->helper(['jwt', 'authorization']);
-        $this->load->model('usuario_model');
+        $this->load->model('paciente_model');
     }
 
     public function token_post()
     {
-        $matricula = $this->post('matricula');
+        $email = $this->post('email');
         $senha = $this->post('senha');
-        $real_user = $this->usuario_model->get_by_matricula($matricula)[0];
+        $real_user = $this->usuario_model->get_by_email($email)[0];
         
-        if ($matricula === $real_user['matricula'] && $senha === $real_user['senha']) {
-            $token = AUTHORIZATION::generateToken(['username' => $real_user['matricula']]);
+        if ($email === $real_user['email'] && $senha === $real_user['senha']) {
+            $token = AUTHORIZATION::generateToken(['username' => $real_user['email']]);
             $status = REST_Controller::HTTP_OK;
             $response = ['status' => $status, 'token' => $token];
             $this->response($response, $status);
@@ -66,18 +66,4 @@ class Login_Controller extends REST_Controller
         }
     }
 
-    public function get_me_data_post()
-    {
-        // Call the verification method and store the return value in the variable
-        $data = $this->verify_request();
-
-        if (!empty($data)) {
-            // Send the return data as reponse
-            $status = parent::HTTP_OK;
-            $response = ['status' => $status, 'data' => $data];
-            $this->response($response, $status);
-        } else {
-            $this->response(["error" => "Você não tem permissão para acessar a página"], REST_Controller::HTTP_UNAUTHORIZED);
-        }
-    }
 }
