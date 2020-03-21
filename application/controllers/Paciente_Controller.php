@@ -41,9 +41,6 @@ class Paciente_Controller extends REST_Controller
             echo $error = json_encode(array("error" => "Any field is invalid!"));
             $this->response(null, REST_Controller::HTTP_BAD_REQUEST);
         } else {
-            if (!array_key_exists("status", $input_data)) {
-                $input_data["status"] = 1;
-            }
             
             $this->paciente_model->insert($input_data);
             $this->response(null, REST_Controller::HTTP_OK);
