@@ -1,5 +1,7 @@
 # Configuração da aplicação backend:
 
+## Configuração de banco
+
 No ``` http://localhost/phpmyadmin/ ``` crie um banco chamado convenio e jogue o codigo abaixo para criar as definições:
 
 ``` 
@@ -53,3 +55,10 @@ insert into plano(nome) values ("Delta");
 insert into plano(nome) values ("Ômega"); 
 
 ```
+
+## Configuração das requests
+
+Antes de conseguir usar o endpoint de pacientes, tem que conseguir o token atraves do login
+
+No postman após passar as crendencias de login terá como resposta um token que na aba Headers tem uma parte chamada authorization no qual irá colar lá para conseguir da um get em pacientes por exemplo;
+
