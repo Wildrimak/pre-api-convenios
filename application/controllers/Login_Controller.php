@@ -21,13 +21,13 @@ class Login_Controller extends REST_Controller
 
     public function token_post()
     {
-        $email = $this->post('email');
+        $cpf = $this->post('cpf');
         $senha = $this->post('senha');
-        $paciente = $this->paciente_model->get_by_email($email);
+        $paciente = $this->paciente_model->get_by_cpf($cpf);
         
 
-        if ($paciente != Null && $email === $paciente->email && $senha === $paciente->senha) {
-            $token = AUTHORIZATION::generateToken(['username' => $paciente->email]);
+        if ($paciente != Null && $cpf === $paciente->cpf && $senha === $paciente->senha) {
+            $token = AUTHORIZATION::generateToken(['username' => $paciente->cpf]);
             $status = REST_Controller::HTTP_OK;
             $response = ['status' => $status, 'token' => $token];
             $this->response($response, $status);

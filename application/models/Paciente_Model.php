@@ -14,9 +14,9 @@ class Paciente_Model extends CI_Model
         return $query->result_array();
     }
 
-    public function get_by_email($email)
+    public function get_by_cpf($cpf)
     {
-        $this->db->where('email', $email);
+        $this->db->where('cpf', $cpf);
         $query = $this->db->get('paciente');
         
         if ($query->result(get_called_class())) {
