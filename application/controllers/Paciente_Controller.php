@@ -2,14 +2,14 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 
-class Usuarios extends REST_Controller
+class Paciente_Controller extends REST_Controller
 {
     public function __construct()
     {
         parent::__construct();
 
         $this->load->helper(['jwt', 'authorization']);
-        $this->load->model('usuario_model');
+        $this->load->model('paciente_model');
     }
 
     public function index_get()
@@ -20,7 +20,7 @@ class Usuarios extends REST_Controller
         
         if ($is_valid) {
             
-            $data = $this->usuario_model->fetch_all();
+            $data = $this->paciente_model->fetch_all();
             $status = REST_Controller::HTTP_OK;
             $response = $data->result_array();
 
@@ -33,10 +33,10 @@ class Usuarios extends REST_Controller
         $input_data = json_decode($this->input->raw_input_stream, true);
 
         $sem_nome = !array_key_exists("nome", $input_data);
-        $sem_matricula = !array_key_exists("matricula", $input_data);
+        $sem_email = !array_key_exists("email", $input_data);
         $sem_senha = !array_key_exists("senha", $input_data);
 
-        if ($sem_nome or $sem_matricula or $sem_senha) {
+        if ($sem_nome or $sem_email or $sem_senha) {
             header('Content-type: application/json');
             echo $error = json_encode(array("error" => "Any field is invalid!"));
             $this->response(null, REST_Controller::HTTP_BAD_REQUEST);
@@ -45,32 +45,32 @@ class Usuarios extends REST_Controller
                 $input_data["status"] = 1;
             }
             
-            $this->usuario_model->insert($input_data);
+            $this->paciente_model->insert($input_data);
             $this->response(null, REST_Controller::HTTP_OK);
         }
     }
 
     public function index_put($id)
     {
-        $data = $this->usuario_model->get($id);
+        $data = $this->paciente_model->get($id);
         
         if (empty($data)) {
             $this->response(null, REST_Controller::HTTP_NOT_FOUND);
         } else {
             $input_data = json_decode($this->input->raw_input_stream, true);
-            $this->usuario_model->update($id, $input_data);
+            $this->paciente_model->update($id, $input_data);
             $this->response(null, REST_Controller::HTTP_NO_CONTENT);
         }
     }
 
     public function index_delete($id)
     {
-        $data = $this->usuario_model->get($id);
+        $data = $this->paciente_model->get($id);
         
         if (empty($data)) {
             $this->response(null, REST_Controller::HTTP_NOT_FOUND);
         } else {
-            $this->usuario_model->delete($id);
+            $this->paciente_model->delete($id);
             $this->response(null, REST_Controller::HTTP_NO_CONTENT);
         }
     }
