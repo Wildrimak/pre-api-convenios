@@ -51,8 +51,8 @@ ON UPDATE RESTRICT;
 insert into plano(nome) values ("Alfa");
 insert into plano(nome) values ("Beta");
 insert into plano(nome) values ("Gama");
-insert into plano(nome) values ("Delta");       
-insert into plano(nome) values ("Ômega"); 
+insert into plano(nome) values ("Delta");
+insert into plano(nome) values ("Ômega");
 
 ```
 

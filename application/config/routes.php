@@ -54,5 +54,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'login_controller/token';
 $route['pacientes'] = 'paciente_controller';
+$route['pacientes/(:any)'] = 'paciente_controller/$1';
 $route['convenios'] = 'convenio_controller';
 $route['planos'] = 'plano_controller';

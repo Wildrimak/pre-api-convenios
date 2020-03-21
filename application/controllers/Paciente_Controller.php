@@ -50,7 +50,7 @@ class Paciente_Controller extends REST_Controller
     public function index_put($id)
     {
         $data = $this->paciente_model->get($id);
-        
+
         if (empty($data)) {
             $this->response(null, REST_Controller::HTTP_NOT_FOUND);
         } else {
