@@ -30,45 +30,59 @@ class Paciente_Controller extends REST_Controller
 
     public function index_post()
     {
-        $input_data = json_decode($this->input->raw_input_stream, true);
+        $data = $this->verify_request();
+        $is_valid = !empty($data); 
+        
+        if ($is_valid) {
+            $input_data = json_decode($this->input->raw_input_stream, true);
 
-        $sem_nome = !array_key_exists("nome", $input_data);
-        $sem_email = !array_key_exists("email", $input_data);
-        $sem_senha = !array_key_exists("senha", $input_data);
+            $sem_nome = !array_key_exists("nome", $input_data);
+            $sem_email = !array_key_exists("email", $input_data);
+            $sem_senha = !array_key_exists("senha", $input_data);
 
-        if ($sem_nome or $sem_email or $sem_senha) {
-            header('Content-type: application/json');
-            echo $error = json_encode(array("error" => "Any field is invalid!"));
-            $this->response(null, REST_Controller::HTTP_BAD_REQUEST);
-        } else {
-            
-            $this->paciente_model->insert($input_data);
-            $this->response(null, REST_Controller::HTTP_OK);
+            if ($sem_nome or $sem_email or $sem_senha) {
+                header('Content-type: application/json');
+                echo $error = json_encode(array("error" => "Any field is invalid!"));
+                $this->response(null, REST_Controller::HTTP_BAD_REQUEST);
+            } else {
+                $this->paciente_model->insert($input_data);
+                $this->response(null, REST_Controller::HTTP_OK);
+            }
         }
     }
 
     public function index_put($id)
     {
-        $data = $this->paciente_model->get($id);
+        $data = $this->verify_request();
+        $is_valid = !empty($data); 
+        
+        if ($is_valid) {
+            $data = $this->paciente_model->get($id);
 
-        if (empty($data)) {
-            $this->response(null, REST_Controller::HTTP_NOT_FOUND);
-        } else {
-            $input_data = json_decode($this->input->raw_input_stream, true);
-            $this->paciente_model->update($id, $input_data);
-            $this->response(null, REST_Controller::HTTP_NO_CONTENT);
+            if (empty($data)) {
+                $this->response(null, REST_Controller::HTTP_NOT_FOUND);
+            } else {
+                $input_data = json_decode($this->input->raw_input_stream, true);
+                $this->paciente_model->update($id, $input_data);
+                $this->response(null, REST_Controller::HTTP_NO_CONTENT);
+            }
         }
     }
 
     public function index_delete($id)
     {
-        $data = $this->paciente_model->get($id);
+        $data = $this->verify_request();
+        $is_valid = !empty($data); 
         
-        if (empty($data)) {
-            $this->response(null, REST_Controller::HTTP_NOT_FOUND);
-        } else {
-            $this->paciente_model->delete($id);
-            $this->response(null, REST_Controller::HTTP_NO_CONTENT);
+        if ($is_valid) {
+            $data = $this->paciente_model->get($id);
+            
+            if (empty($data)) {
+                $this->response(null, REST_Controller::HTTP_NOT_FOUND);
+            } else {
+                $this->paciente_model->delete($id);
+                $this->response(null, REST_Controller::HTTP_NO_CONTENT);
+            }
         }
     }
 
