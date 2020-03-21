@@ -30,31 +30,28 @@ class Paciente_Controller extends REST_Controller
 
     public function index_post()
     {
-        $data = $this->verify_request();
-        $is_valid = !empty($data); 
         
-        if ($is_valid) {
-            $input_data = json_decode($this->input->raw_input_stream, true);
+        $input_data = json_decode($this->input->raw_input_stream, true);
 
-            $sem_nome = !array_key_exists("nome", $input_data);
-            $sem_cpf = !array_key_exists("cpf", $input_data);
-            $sem_senha = !array_key_exists("senha", $input_data);
-            
-            $paciente = $this->paciente_model->get_by_cpf($input_data["cpf"]);
-            
-            $ja_existe_cpf = $paciente != null;
+        $sem_nome = !array_key_exists("nome", $input_data);
+        $sem_cpf = !array_key_exists("cpf", $input_data);
+        $sem_senha = !array_key_exists("senha", $input_data);
+        
+        $paciente = $this->paciente_model->get_by_cpf($input_data["cpf"]);
+ 
+        $ja_existe_cpf = $paciente != null;
 
-            if ($sem_nome or $sem_cpf or $sem_senha or $ja_existe_cpf) {
-                header('Content-type: application/json');
-                echo $error = json_encode(array("error" => "Any field is invalid!"));
-                
-                
-                $this->response(null, REST_Controller::HTTP_BAD_REQUEST);
-            } else {
-                $this->paciente_model->insert($input_data);
-                $this->response(null, REST_Controller::HTTP_OK);
-            }
+        if ($sem_nome or $sem_cpf or $sem_senha or $ja_existe_cpf) {
+            header('Content-type: application/json');
+            echo $error = json_encode(array("error" => "Any field is invalid!"));
+            
+            
+            $this->response(null, REST_Controller::HTTP_BAD_REQUEST);
+        } else {
+            $this->paciente_model->insert($input_data);
+            $this->response(null, REST_Controller::HTTP_OK);
         }
+    
     }
 
     public function index_put($id)
